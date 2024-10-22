@@ -15,10 +15,8 @@
         <module>UnitedSkills</module>
         <module>UnitedItems</module>
         <module>UnitedUpkeep</module>
-        <module>UnitedWars</module>
         <module>UnitedProtection</module>
         <module>UnitedTransport</module>
-        <module>UnitedBrands</module>
     </modules>
     <build>
         <plugins>
