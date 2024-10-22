@@ -123,4 +123,6 @@ A custom-made pvp manager that handles the pvp status of players. It also has a 
   - `united.brands.admin` - Grants access to the `/breweryadmin` command
   - `united.brewery.upgrade` - Grants access to the `/brewery upgrade` command.
   
-  
+  ## Archived Plugins
+
+  Unused plugins can be found in a separate repository [here](https://github.com/United-Lands/United-Archive).
