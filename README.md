@@ -1,15 +1,14 @@
-# UnitedCore
+# United Core
 
-**UnitedCore** is a custom-made plugin for UnitedLands, which has most of our custom made features spread out over multiple 'nodes'. Info detailing each node is provided below. The current working nodes are:
+**United Core** is a custom-made plugin for United Lands, which has most of our custom made features spread out over multiple 'nodes'. Info detailing each node is provided below. The current working nodes are:
   1. UnitedPvP
   2. UnitedChat
   3. UnitedItems
   4. UnitedUpkeep
-  5. UnitedBrands
-  6. UnitedProtection
+  5. UnitedProtection
 
 # Building and Development
-Unfortunately, due to how these plugins are configured, they are very hard to replicate and use on a development server outside of UnitedLands. The code is purely available for accessibility and anyone who's curious. However, if you still want to try and build the plugin(s), you will need:
+Unfortunately, due to how these plugins are configured, they are very hard to replicate and use on a development server outside of United Lands. The code is purely available for accessibility and anyone who's curious. However, if you still want to try and build the plugin(s), you will need:
 
 - A local maven repository of SafariNet, which is used for UnitedSkills capturing skills. You may google how to set up a local maven repository from a jar file, once you have bought the plugin from [here](https://www.spigotmc.org/resources/9732/). You should then add the info of the local repo to the pom.xml of the UnitedSkills module
 
