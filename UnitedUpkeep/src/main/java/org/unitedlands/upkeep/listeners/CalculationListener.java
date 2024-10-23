@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.unitedlands.upkeep.UnitedUpkeep;
 import org.unitedlands.upkeep.calculators.NationUpkeepCalculator;
 import org.unitedlands.upkeep.calculators.TownUpkeepCalculator;
-import org.unitedlands.upkeep.util.TerritorialMetaController;
 
 public class CalculationListener implements Listener {
     private final UnitedUpkeep unitedUpkeep;
@@ -23,8 +22,7 @@ public class CalculationListener implements Listener {
         Town town = event.getTown();
 
         TownUpkeepCalculator calculator = new TownUpkeepCalculator(this.unitedUpkeep, town);
-        double bonusDiscount = calculator.calculateBonusBlockDiscount();
-        double upkeep = bonusDiscount;
+        double upkeep = calculator.calculateBonusBlockDiscount();
         if (upkeep <= 0.0) {
             upkeep = 0.0;
         }

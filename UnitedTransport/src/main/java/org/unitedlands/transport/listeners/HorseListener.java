@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.spigotmc.event.entity.EntityMountEvent;
 import org.unitedlands.transport.UnitedTransport;
 
+import java.util.Objects;
+
 public class HorseListener implements Listener {
     private final UnitedTransport unitedTransport;
 
@@ -37,10 +39,10 @@ public class HorseListener implements Listener {
         if (!event.hasChangedBlock()) return;
         if (!player.isInsideVehicle()) return;
         if (player.getVehicle() instanceof Horse horse) {
-            double horseSpeed = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue();
+            double horseSpeed = Objects.requireNonNull(horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).getBaseValue();
             double newHorseSpeed = getBoostedHorseSpeed(horse);
             if (horseSpeed != newHorseSpeed) {
-                horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(newHorseSpeed);
+                Objects.requireNonNull(horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(newHorseSpeed);
             }
         }
     }
@@ -72,7 +74,7 @@ public class HorseListener implements Listener {
         NamespacedKey speedKey = getSpeedKey();
         PersistentDataContainer container = horse.getPersistentDataContainer();
         if (!hasSpeedKey(horse)) {
-            container.set(speedKey, PersistentDataType.DOUBLE, horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue());
+            container.set(speedKey, PersistentDataType.DOUBLE, Objects.requireNonNull(horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).getBaseValue());
         }
     }
 

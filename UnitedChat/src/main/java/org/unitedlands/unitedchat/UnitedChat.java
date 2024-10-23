@@ -11,6 +11,8 @@ import org.unitedlands.unitedchat.commands.GradientCommand;
 import org.unitedlands.unitedchat.hooks.Placeholders;
 import org.unitedlands.unitedchat.player.PlayerListener;
 
+import java.util.Objects;
+
 public class UnitedChat extends JavaPlugin {
 
     private static UnitedChat PLUGIN;
@@ -31,9 +33,9 @@ public class UnitedChat extends JavaPlugin {
         }
         new Placeholders().register();
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        getCommand("gradient").setExecutor(new GradientCommand());
-        getCommand("cc").setExecutor(new ClearChatCommand());
-        getCommand("chat").setExecutor(new ChatToggleCommand());
+        Objects.requireNonNull(getCommand("gradient")).setExecutor(new GradientCommand());
+        Objects.requireNonNull(getCommand("cc")).setExecutor(new ClearChatCommand());
+        Objects.requireNonNull(getCommand("chat")).setExecutor(new ChatToggleCommand());
         saveDefaultConfig();
 
     }

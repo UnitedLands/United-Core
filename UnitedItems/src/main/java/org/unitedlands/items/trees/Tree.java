@@ -4,10 +4,6 @@ import dev.lone.itemsadder.api.CustomBlock;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.unitedlands.items.UnitedItems;
-import org.unitedlands.items.util.GenericLocation;
-import org.unitedlands.items.util.Logger;
-import org.unitedlands.items.util.SerializableData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,6 +15,10 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
+import org.unitedlands.items.UnitedItems;
+import org.unitedlands.items.util.GenericLocation;
+import org.unitedlands.items.util.Logger;
+import org.unitedlands.items.util.SerializableData;
 import org.unitedlands.skills.skill.Skill;
 import org.unitedlands.skills.skill.SkillType;
 
@@ -43,9 +43,7 @@ public class Tree implements Listener, Serializable {
 
 		if(safeSapling != null) {
 			Logger.log(String.format("&aLoading cached trees &6[&e%d&6]...", safeSapling.size()));
-			safeSapling.forEach((x,y) -> {
-				sapling.put(x.getLocation(), TreeType.valueOf(y));
-			});
+			safeSapling.forEach((x,y) -> sapling.put(x.getLocation(), TreeType.valueOf(y)));
 		} else {
 			Logger.log("&aLoading cached saplings &6[&e0&6]...");
 		}
@@ -107,7 +105,7 @@ public class Tree implements Listener, Serializable {
 							Bukkit.getScheduler().runTaskLater(unitedItems, () -> CustomBlock.place(tree.getStemReplaceBlockName(), blockLocation), 1);
 						}
 					} else {
-						// if its not a fungal birch, always put the custom block
+						// if it's not a fungal birch, always put the custom block
 						Bukkit.getScheduler().runTaskLater(unitedItems, () -> CustomBlock.place(tree.getStemReplaceBlockName(), blockLocation), 1);
 					}
 				} else if (block.getType().equals(tree.getFruitBlock())) {
@@ -182,10 +180,8 @@ public class Tree implements Listener, Serializable {
 	}
 	
 	public static HashMap<GenericLocation, String> getSerializableSaplings(){
-		HashMap<GenericLocation, String> safeSapling = new HashMap<GenericLocation, String>();
-		sapling.forEach((x,y) -> {
-			safeSapling.put(new GenericLocation(x), y.name());
-		});
+		HashMap<GenericLocation, String> safeSapling = new HashMap<>();
+		sapling.forEach((x,y) -> safeSapling.put(new GenericLocation(x), y.name()));
 		return safeSapling;
 	}
 }

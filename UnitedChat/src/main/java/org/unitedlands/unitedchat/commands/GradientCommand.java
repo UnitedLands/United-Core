@@ -11,6 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import org.unitedlands.unitedchat.UnitedChat;
 import org.unitedlands.unitedchat.player.ChatPlayer;
 
+import java.util.Objects;
+
 import static org.unitedlands.unitedchat.UnitedChat.getMessage;
 
 public class GradientCommand implements CommandExecutor {
@@ -48,7 +50,7 @@ public class GradientCommand implements CommandExecutor {
     }
 
     private void setGradient(String arg) {
-        if (getPresetSection().contains(arg)) {
+        if (Objects.requireNonNull(getPresetSection()).contains(arg)) {
             setGradientPreset(arg);
             return;
         }
@@ -63,7 +65,7 @@ public class GradientCommand implements CommandExecutor {
     }
 
     private void setGradientPreset(String presetName) {
-        if (getPresetSection().getString(presetName) == null) {
+        if (Objects.requireNonNull(getPresetSection()).getString(presetName) == null) {
             player.sendMessage(getMessage("gradient-unknown-preset"));
             return;
         }

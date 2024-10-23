@@ -6,11 +6,11 @@ import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
 import com.palmergames.bukkit.towny.TownyMessaging;
 import com.palmergames.bukkit.towny.command.BaseCommand;
 import com.palmergames.bukkit.towny.object.AddonCommand;
-import com.palmergames.bukkit.towny.object.Nation;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
@@ -22,7 +22,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.unitedlands.upkeep.UnitedUpkeep;
-import org.unitedlands.upkeep.util.NationMetaController;
 import org.unitedlands.upkeep.util.TerritorialMetaController;
 
 
@@ -40,7 +39,7 @@ import org.unitedlands.upkeep.util.TerritorialMetaController;
  */
 public class TerritorialWarCommand implements TabExecutor {
 
-    private UnitedUpkeep unitedUpkeep;
+    private final UnitedUpkeep unitedUpkeep;
 
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         return switch (args.length) {
@@ -61,19 +60,19 @@ public class TerritorialWarCommand implements TabExecutor {
                 Town town = TownyAPI.getInstance().getTown((Player) (sender));
                 Resident resident = TownyAPI.getInstance().getResident((Player) (sender));
                 if(town == null) {
-                    TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&', this.unitedUpkeep.getConfig().getString("errors.noTown")));
+                    TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.unitedUpkeep.getConfig().getString("errors.noTown"))));
                     return true;
                 }
                 if(!town.isMayor(resident)) {
-                    TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&', this.unitedUpkeep.getConfig().getString("errors.notMayor")));
+                    TownyMessaging.sendErrorMsg(sender, ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.unitedUpkeep.getConfig().getString("errors.notMayor"))));
                     return true;
                 }
                 if(town.isNeutral()) {
-                    TownyMessaging.sendErrorMsg(sender,ChatColor.translateAlternateColorCodes('&', this.unitedUpkeep.getConfig().getString("errors.neutralTown")));
+                    TownyMessaging.sendErrorMsg(sender,ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.unitedUpkeep.getConfig().getString("errors.neutralTown"))));
                     return true;
                 }
                 TerritorialMetaController.toggleTerritorialWars(town);
-                TownyMessaging.sendPrefixedTownMessage(town,ChatColor.translateAlternateColorCodes('&', (TerritorialMetaController.toggledTerritorialWars(town) ? (this.unitedUpkeep.getConfig().getString("messages.enabledTerritorial")) : (this.unitedUpkeep.getConfig().getString("messages.disabledTerritorial")))));
+                TownyMessaging.sendPrefixedTownMessage(town,ChatColor.translateAlternateColorCodes('&', (Objects.requireNonNull(TerritorialMetaController.toggledTerritorialWars(town) ? (this.unitedUpkeep.getConfig().getString("messages.enabledTerritorial")) : (this.unitedUpkeep.getConfig().getString("messages.disabledTerritorial"))))));
             } else {
                 TownyMessaging.sendErrorMsg("You must be a player to use this command!");
             }

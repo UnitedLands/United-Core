@@ -31,10 +31,6 @@ public class PvpPlayer {
         playerConfig = getFileConfiguration();
     }
 
-    public OfflinePlayer getPlayer() {
-        return player;
-    }
-
     public void createFile() {
         File playerDataFile = getPlayerFile();
         if (!playerDataFile.exists()) {

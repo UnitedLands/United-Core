@@ -8,6 +8,8 @@ import org.unitedlands.pvp.hooks.Placeholders;
 import org.unitedlands.pvp.listeners.PlayerListener;
 import org.unitedlands.pvp.listeners.TownyListener;
 
+import java.util.Objects;
+
 public final class UnitedPvP extends JavaPlugin {
 
     @Override
@@ -21,7 +23,7 @@ public final class UnitedPvP extends JavaPlugin {
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerListener(this), this);
         pluginManager.registerEvents(new TownyListener(this), this);
-        getCommand("pvp").setExecutor(new PvPCmd());
+        Objects.requireNonNull(getCommand("pvp")).setExecutor(new PvPCmd());
 
         // PlaceholderAPI Expansion Register
         if (pluginManager.getPlugin("PlaceholderAPI") != null) {

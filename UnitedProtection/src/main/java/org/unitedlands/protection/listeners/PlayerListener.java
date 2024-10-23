@@ -3,6 +3,7 @@ package org.unitedlands.protection.listeners;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.TownBlock;
 import java.util.List;
+import java.util.Objects;
 
 import com.palmergames.bukkit.towny.object.TownyPermission;
 import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
@@ -32,7 +33,7 @@ public class PlayerListener implements Listener {
         this.player = event.getPlayer();
         Block block = event.getBlock();
         if (this.isProtectedBlock(block)) {
-            this.player.sendMessage(this.getMessage("break-deny-message"));
+            this.player.sendMessage(Objects.requireNonNull(this.getMessage("break-deny-message")));
             event.setCancelled(true);
         }
 
@@ -43,7 +44,7 @@ public class PlayerListener implements Listener {
         this.player = event.getPlayer();
         Block block = event.getBlock();
         if (this.isProtectedBlock(block)) {
-            this.player.sendMessage(this.getMessage("place-deny-message"));
+            this.player.sendMessage(Objects.requireNonNull(this.getMessage("place-deny-message")));
             event.setCancelled(true);
         }
 
@@ -75,7 +76,10 @@ public class PlayerListener implements Listener {
 
     private String getMessage(String message) {
         message = this.getConfiguration().getString(message);
-        return ChatColor.translateAlternateColorCodes('&', message);
+        if (message != null) {
+            return ChatColor.translateAlternateColorCodes('&', message);
+        }
+        return null;
     }
 
     private boolean isProtectedBlock(Block block) {

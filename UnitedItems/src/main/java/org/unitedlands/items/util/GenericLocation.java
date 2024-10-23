@@ -11,14 +11,7 @@ public class GenericLocation implements Serializable {
 	private final int y;
 	private final int z;
 	private final String worldName;
-	
-	public GenericLocation(int x, int y, int z, String worldName) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.worldName = worldName;
-	}
-	
+
 	public GenericLocation(Location l) {
 		this.x = l.getBlockX();
 		this.y = l.getBlockY();
