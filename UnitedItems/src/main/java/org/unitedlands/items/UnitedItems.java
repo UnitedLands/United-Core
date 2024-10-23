@@ -5,26 +5,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.unitedlands.items.commands.TreeCmd;
-import org.unitedlands.items.listeners.FoodListener;
-import org.unitedlands.items.sapling.AncientOak;
-import org.unitedlands.items.sapling.MidasJungle;
-import org.unitedlands.items.sapling.MidasOak;
-import org.unitedlands.items.sapling.FloweringAcacia;
-import org.unitedlands.items.sapling.FungalSapling;
-import org.unitedlands.items.sapling.MangoSapling;
-import org.unitedlands.items.sapling.PineSapling;
+import org.unitedlands.items.sapling.*;
 import org.unitedlands.items.trees.Tree;
 import org.unitedlands.items.util.SerializableData;
 
 import java.io.File;
+import java.util.Objects;
 
 public class UnitedItems extends JavaPlugin {
 
     @Override
     public void onEnable() {
 
-        this.getCommand("tree").setExecutor(new TreeCmd());
-        getServer().getPluginManager().registerEvents(new FoodListener(this),this);
+        Objects.requireNonNull(this.getCommand("tree")).setExecutor(new TreeCmd());
         getServer().getPluginManager().registerEvents(new Tree(this),this);
         saveDefaultConfig();
 
@@ -41,7 +34,7 @@ public class UnitedItems extends JavaPlugin {
 
     public static String getMsg(String s){
         File customConfigFile;
-        customConfigFile = new File(Bukkit.getPluginManager().getPlugin("UnitedItems").getDataFolder(),
+        customConfigFile = new File(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("UnitedItems")).getDataFolder(),
                 "config.yml");
         FileConfiguration customConfig;
         customConfig = new YamlConfiguration();
@@ -51,13 +44,13 @@ public class UnitedItems extends JavaPlugin {
             System.out.println("Error with loading messages.");
         }
 
-        return customConfig.getConfigurationSection("Items").getString(s);
+        return Objects.requireNonNull(customConfig.getConfigurationSection("Items")).getString(s);
 
     }
 
     public static String getGlobalMsg(String s){
         File customConfigFile;
-        customConfigFile = new File(Bukkit.getPluginManager().getPlugin("UnitedItems").getDataFolder(),
+        customConfigFile = new File(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("UnitedItems")).getDataFolder(),
                 "config.yml");
         FileConfiguration customConfig;
         customConfig = new YamlConfiguration();
@@ -67,7 +60,7 @@ public class UnitedItems extends JavaPlugin {
             System.out.println("Error with loading messages.");
         }
 
-        return customConfig.getConfigurationSection("Global").getString(s);
+        return Objects.requireNonNull(customConfig.getConfigurationSection("Global")).getString(s);
 
     }
 
