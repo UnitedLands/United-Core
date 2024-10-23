@@ -75,6 +75,7 @@ public class PlayerListener implements Listener {
 
     private String getMessage(String message) {
         message = this.getConfiguration().getString(message);
+        assert message != null;
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
