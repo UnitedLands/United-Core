@@ -69,14 +69,21 @@ public class Placeholders extends PlaceholderExpansion implements Relational {
     }
 
     public boolean isChatFeatureEnabled(ChatFeature feature, OfflinePlayer player) {
-        if (player.getPlayer() == null)
+        Player onlinePlayer = player.getPlayer();
+        if (onlinePlayer == null) {
             return false;
-        PersistentDataContainer pdc = player.getPlayer().getPersistentDataContainer();
+        }
+
+        PersistentDataContainer pdc = onlinePlayer.getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(UnitedChat.getPlugin(), feature.toString());
-        // features are on by default, which means it wasn't ever toggled before if there is no key.
-        if (!pdc.has(key))
+
+        // Features are on by default, which means it wasn't ever toggled before if there is no key.
+        if (!pdc.has(key, PersistentDataType.INTEGER)) {
             return true;
-        return pdc.get(key, PersistentDataType.INTEGER) == 1;
+        }
+
+        Integer featureStatus = pdc.get(key, PersistentDataType.INTEGER);
+        return featureStatus != null && featureStatus == 1;
     }
 
 }

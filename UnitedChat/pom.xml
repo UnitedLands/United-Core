@@ -6,7 +6,7 @@
 
     <groupId>org.unitedlands</groupId>
     <artifactId>UnitedChat</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
     <packaging>jar</packaging>
 
     <name>UnitedChat</name>
@@ -93,12 +93,6 @@
             <version>0.97.3.0</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.github.TownyAdvanced</groupId>-->
-<!--            <artifactId>TownyChat</artifactId>-->
-<!--            <version>0.85</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
