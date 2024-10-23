@@ -36,6 +36,7 @@ import org.unitedlands.pvp.util.Utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -74,7 +75,7 @@ public class PlayerListener implements Listener {
     }
 
     private void tryNeutralityRemoval(Player player) {
-        Town town = towny.getResident(player.getUniqueId()).getTownOrNull();
+        Town town = Objects.requireNonNull(towny.getResident(player.getUniqueId())).getTownOrNull();
         // Player doesn't have a town
         if (town == null) return;
         PvpPlayer pvpPlayer = new PvpPlayer(player);
@@ -88,12 +89,12 @@ public class PlayerListener implements Listener {
             // Notify the mayor if they're online
             Resident mayor = town.getMayor();
             if (mayor.isOnline()) {
-                mayor.getPlayer().sendMessage(Utils.getMessage("kicked-out-of-neutrality-mayor"));
+                Objects.requireNonNull(mayor.getPlayer()).sendMessage(Utils.getMessage("kicked-out-of-neutrality-mayor"));
             }
         }
         if (town.hasNation()) {
             Nation nation = town.getNationOrNull();
-            if (nation.isNeutral()) {
+            if (Objects.requireNonNull(nation).isNeutral()) {
                 nation.setNeutral(false);
                 Player king = nation.getKing().getPlayer();
                 if (king != null) {
@@ -195,7 +196,7 @@ public class PlayerListener implements Listener {
         if (resident == null) return false;
         // Make sure they're not in the wilderness
         if (towny.isWilderness(graveLocation)) return false;
-        Town town = towny.getTownBlock(graveLocation).getTownOrNull();
+        Town town = Objects.requireNonNull(towny.getTownBlock(graveLocation)).getTownOrNull();
         // This shouldn't happen but adding it to be safe.
         if (town == null) return false;
 
@@ -206,7 +207,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if (!event.getClickedBlock().getType().equals(Material.OBSIDIAN)) return;
+        if (!Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.OBSIDIAN)) return;
         // The player clicked an obsidian but didn't have a crystal
         if (!event.getMaterial().equals(Material.END_CRYSTAL)) return;
 
@@ -292,11 +293,11 @@ public class PlayerListener implements Listener {
     }
 
     private boolean areRelated(Player first, Player second) {
-        var firstTown = towny.getResident(first).getTownOrNull();
-        var secondTown = towny.getResident(second).getTownOrNull();
+        var firstTown = Objects.requireNonNull(towny.getResident(first)).getTownOrNull();
+        var secondTown = Objects.requireNonNull(towny.getResident(second)).getTownOrNull();
         if (firstTown == null || secondTown == null) return false;
         if (firstTown.hasNation() && secondTown.hasNation()) {
-            return firstTown.getNationOrNull().equals(secondTown.getNationOrNull());
+            return Objects.equals(firstTown.getNationOrNull(), secondTown.getNationOrNull());
         }
         return firstTown.equals(secondTown);
     }

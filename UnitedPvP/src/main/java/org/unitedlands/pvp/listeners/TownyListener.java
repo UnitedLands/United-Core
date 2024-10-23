@@ -25,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 import org.unitedlands.pvp.UnitedPvP;
 import org.unitedlands.pvp.player.PvpPlayer;
@@ -33,6 +34,7 @@ import org.unitedlands.pvp.util.Utils;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TownyListener implements Listener {
     private final TownyAPI towny = TownyAPI.getInstance();
@@ -47,19 +49,19 @@ public class TownyListener implements Listener {
     public void onLeaderJoin(PlayerJoinEvent event) {
         this.player = event.getPlayer();
         Resident resident = towny.getResident(player);
-        if (!resident.hasTown())
+        if (!Objects.requireNonNull(resident).hasTown())
             return;
 
         if (!hasNotification(player))
             return;
 
         if (resident.isMayor()) {
-            List<String> hostilePlayers = getHostileResidents(resident.getTownOrNull().getResidents());
+            List<String> hostilePlayers = getHostileResidents(Objects.requireNonNull(resident.getTownOrNull()).getResidents());
             if (!hostilePlayers.isEmpty())
                 sendListedMessage("cannot-be-neutral", "<players>", hostilePlayers);
         }
         if (resident.isKing()) {
-            List<String> hostileTowns = getHostileTowns(resident.getNationOrNull());
+            List<String> hostileTowns = getHostileTowns(Objects.requireNonNull(resident.getNationOrNull()));
             if (!hostileTowns.isEmpty())
                 sendListedMessage("cannot-be-neutral-nation", "<towns>", hostileTowns);
         }
@@ -92,7 +94,7 @@ public class TownyListener implements Listener {
         sendListedMessage("cannot-be-neutral", "<players>", hostileResidents);
     }
 
-    private void sendListedMessage(String message, String pattern, List<String> list) {
+    private void sendListedMessage(String message, @RegExp String pattern, List<String> list) {
         TextReplacementConfig playerReplacer = TextReplacementConfig
                 .builder()
                 .match(pattern)
@@ -157,12 +159,12 @@ public class TownyListener implements Listener {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0.4F);
             BossBar outlawedBossbar = getOutlawedBossbar(town);
             player.showBossBar(outlawedBossbar);
-            startBossbarCountdown(outlawedBossbar, 15);
+            startBossbarCountdown(outlawedBossbar);
         }
     }
 
-    private void startBossbarCountdown(BossBar bossBar, int seconds) {
-        double timeDecrease =  (double) 1 / seconds;
+    private void startBossbarCountdown(BossBar bossBar) {
+        double timeDecrease =  (double) 1 / 15;
         unitedPvP.getServer().getScheduler().runTaskTimer(unitedPvP, task -> {
             if (bossBar.progress() <= 0.0) {
                 player.hideBossBar(bossBar);
@@ -185,14 +187,14 @@ public class TownyListener implements Listener {
                 return;
             town.setNeutral(false);
             if (town.getMayor().isOnline()) {
-                town.getMayor().getPlayer().sendMessage(Utils.getMessage("kicked-out-of-neutrality-mayor"));
+                Objects.requireNonNull(town.getMayor().getPlayer()).sendMessage(Utils.getMessage("kicked-out-of-neutrality-mayor"));
             }
         });
     }
     private void tryNationNeutralityRemoval(Town town) {
         if (!town.isNeutral() && town.hasNation()) {
             Nation nation = town.getNationOrNull();
-            if (nation.isNeutral()) {
+            if (Objects.requireNonNull(nation).isNeutral()) {
                 nation.setNeutral(false);
                 Player king = nation.getKing().getPlayer();
                 if (king != null) {
