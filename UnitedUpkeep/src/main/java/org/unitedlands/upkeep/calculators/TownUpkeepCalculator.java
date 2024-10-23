@@ -7,6 +7,8 @@ import org.unitedlands.upkeep.UnitedUpkeep;
 import org.unitedlands.upkeep.util.NationMetaController;
 import org.unitedlands.upkeep.util.TerritorialMetaController;
 
+import java.util.Objects;
+
 public class TownUpkeepCalculator {
     private final UnitedUpkeep unitedUpkeep;
     private final Town town;
@@ -23,7 +25,7 @@ public class TownUpkeepCalculator {
     }
 
     public double calculateTownUpkeep(){
-        double upkeepPerPlot = 0;
+        double upkeepPerPlot;
         if(town.hasNation()){
             upkeepPerPlot = (double)this.getBaseTownUpkeepPrice() * this.getRiseMod() / (this.getFallMod() + this.calculateNationDiscount());
         }else{
@@ -62,8 +64,7 @@ public class TownUpkeepCalculator {
     }
 
     public double calculateBonusBlockDiscount() {
-        double upkeepPerPlot = Math.floor(this.calculateTownUpkeep());
-            return upkeepPerPlot;
+        return Math.floor(this.calculateTownUpkeep());
     }
 
     private double getFallMod() {
@@ -91,7 +92,7 @@ public class TownUpkeepCalculator {
             return 0.0;
         } else {
             Nation nation = this.town.getNationOrNull();
-            if (nation.getNumTowns() == 1) {
+            if (Objects.requireNonNull(nation).getNumTowns() == 1) {
                 return 0.0;
             } else {
                 double claimContributionPercent = (double)this.getTownPlotCount() / (double)nation.getTownBlocks().size();

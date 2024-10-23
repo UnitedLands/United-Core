@@ -16,7 +16,7 @@ public class NationUpkeepCalculator {
 
     public double calculateNationUpkeep() {
         int townCount = this.nation.getNumTowns();
-        double townCountMod = (double)(1.0F / (float)townCount);
+        double townCountMod = 1.0F / (float)townCount;
         double upkeepPerPlot = Math.floor((double)this.getNationBaseUpkeep() * this.getRiseMod() / this.getFallMod() * townCountMod);
         double upkeep = Math.floor(upkeepPerPlot * (double)this.getNationPlotCount());
         if(NationMetaController.isOfficialNation(this.nation, "major")) {
