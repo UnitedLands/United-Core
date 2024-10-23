@@ -27,7 +27,7 @@ public class MiscListener implements Listener {
     public void onPlayerReachBorder(PlayerMoveEvent event) {
         if (!event.hasChangedBlock())
             return;
-        if (!isEarthWorld(event.getTo().getWorld())) {
+        if (isEarthWorld(event.getTo().getWorld())) {
             return;
         }
         Player player = event.getPlayer();
@@ -58,7 +58,7 @@ public class MiscListener implements Listener {
     public void onPlayerTouchArk(PlayerMoveEvent event) {
         if (!event.hasChangedBlock())
             return;
-        if (!isEarthWorld(event.getTo().getWorld()))
+        if (isEarthWorld(event.getTo().getWorld()))
             return;
         Location to = event.getTo();
         if (to.getBlockY() < 90)
@@ -80,7 +80,7 @@ public class MiscListener implements Listener {
     }
 
     private boolean isEarthWorld(World world) {
-        return world.getName().equalsIgnoreCase("world_earth");
+        return !world.getName().equalsIgnoreCase("world_earth");
     }
 
     private boolean isHorizontalEdge(Location location) {
